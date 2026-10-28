@@ -36,17 +36,26 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
 
-            {/* Left: Student photo */}
+            {/* Left: Resilience photo */}
             <div className="lg:col-span-5">
-              <div className="relative w-full aspect-[4/3] sm:aspect-[5/4] lg:aspect-[4/3] rounded-3xl overflow-hidden shadow-sm">
+              <div className="relative w-full aspect-[4/5] sm:aspect-[3/4] lg:aspect-[4/5] rounded-3xl overflow-hidden shadow-md border border-[#D9E8E2] group">
                 <Image
-                  src="/images/student-writing.png"
-                  alt="Student writing during a self-authoring session"
+                  src="/images/about-resilience-sprout.jpg"
+                  alt="A resilient green seedling emerging through rocky ground, symbolizing purpose, growth, and perseverance"
                   fill
-                  className="object-cover"
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
                   priority
                   sizes="(max-width: 1024px) 100vw, 42vw"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#172B36]/70 via-[#172B36]/10 to-transparent pointer-events-none" />
+                <div className="absolute bottom-5 left-5 right-5 text-white">
+                  <span className="text-[10px] uppercase font-bold tracking-widest text-[#FFC801] block mb-1">
+                    Resilience &amp; Purpose
+                  </span>
+                  <p className="text-xs text-white/95 leading-snug drop-shadow-sm">
+                    Growth takes root and thrives even in the most challenging terrain.
+                  </p>
+                </div>
               </div>
             </div>
 
