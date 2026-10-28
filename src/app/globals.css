@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@theme {
+  --color-gkf-forsythia: #FFC600;
+  --color-gkf-saffron: #EF9332;
+  --color-gkf-noir: #0B3D2E;
+  --color-gkf-arctic: #FBFAF4;
+  --color-gkf-mint: #D9E8E2;
+  --color-gkf-nocturnal: #114C5A;
+}
+
+:root {
+  --background: #FBFAF4;
+  --foreground: #0B3D2E;
+  --card: #ffffff;
+  --card-foreground: #0B3D2E;
+  --primary: #EF9332;
+  --primary-foreground: #0B3D2E;
+  --border: #D9E8E2;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: var(--font-montserrat), sans-serif;
+}
+
+.font-accent {
+  font-family: var(--font-poppins), sans-serif;
+  font-style: italic;
+}
+
+/* Custom GKF Glass & High-contrast effects */
+.gkf-glass {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.gkf-glass-dark {
+  background: rgba(11, 61, 46, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.gkf-gradient-brand {
+  background: linear-gradient(135deg, #0B3D2E 0%, #114C5A 100%);
+}
+
+.gkf-gradient-accent {
+  background: linear-gradient(135deg, #EF9332 0%, #FFC600 100%);
+}
+
+/* Pulse animation for live sync status */
+@keyframes syncPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+.sync-pulse {
+  animation: syncPulse 2s infinite ease-in-out;
+}
