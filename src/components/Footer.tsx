@@ -98,8 +98,11 @@ export default function Footer() {
         </div>
 
         {/* Bottom copyright line */}
-        <div className="mt-14 pt-8 border-t border-white/10 text-[11px] text-slate-400">
+        <div className="mt-14 pt-8 border-t border-white/10 text-[11px] text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p>© 2026 Geoffrey Karema Foundation. Every young person deserves a map for their future.</p>
+          <p className="text-slate-400">
+            Developed by <span className="text-slate-200 font-medium hover:text-[#FFC801] transition-colors">Manjano Studios</span>
+          </p>
         </div>
       </div>
     </footer>
