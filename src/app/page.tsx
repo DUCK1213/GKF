@@ -69,7 +69,7 @@ export default function HomePage() {
                 />
               </div>
               <p className="text-sm sm:text-base text-slate-200 leading-relaxed font-normal">
-                True change begins when a young person is given the tools, confidence, and backing to chart their own course. GKF creates a circle of support around youth, combining safe, school-based mentorship, parent and guardian workshops, and post-secondary scholarship pathways to help young people navigate life&apos;s turning points with clarity and hope.
+                True change begins when young people have the tools, guidance, and backing to chart their own path. GKF wraps a dedicated circle of guidance around students—uniting trusted school-based mentorship, active guardian engagement, and post-secondary pathways to inspire lasting clarity and hope.
               </p>
             </div>
 
