@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Netlify Form Detection</title>
+</head>
+<body>
+  <!-- 1. Mentor Application Form -->
+  <form name="mentor-application" netlify netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="form-name" value="mentor-application" />
+    <input type="text" name="bot-field" />
+    <input type="text" name="name" />
+    <input type="email" name="email" />
+    <input type="text" name="profession" />
+    <select name="availability">
+      <option value="one-sunday">One Sunday only</option>
+      <option value="monthly">Monthly</option>
+      <option value="full-term">Full term</option>
+    </select>
+    <textarea name="motivation"></textarea>
+  </form>
+
+  <!-- 2. School / Organization Partnership Form -->
+  <form name="partner-inquiry" netlify netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="form-name" value="partner-inquiry" />
+    <input type="text" name="bot-field" />
+    <input type="text" name="orgName" />
+    <input type="text" name="contactName" />
+    <input type="email" name="contactEmail" />
+    <select name="partnerType">
+      <option value="school-hub">Host a school hub</option>
+      <option value="cohort-sponsor">Sponsor a student cohort</option>
+      <option value="ngo">NGO collaboration</option>
+      <option value="corporate">Corporate CSR partnership</option>
+    </select>
+    <textarea name="details"></textarea>
+  </form>
+
+  <!-- 3. General Message Form -->
+  <form name="general-message" netlify netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="form-name" value="general-message" />
+    <input type="text" name="bot-field" />
+    <input type="text" name="name" />
+    <input type="email" name="email" />
+    <textarea name="message"></textarea>
+  </form>
+</body>
+</html>
