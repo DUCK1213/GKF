@@ -45,7 +45,8 @@ export default function GetInvolvedPage() {
     setFormState({ submitted: false, loading: true, error: null });
 
     try {
-      const response = await fetch('/', {
+      // Post to the static fallback HTML file so Netlify intercepts it without Next.js routing issues
+      const response = await fetch('/__forms.html', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: encode({
@@ -57,8 +58,7 @@ export default function GetInvolvedPage() {
       if (response.ok) {
         setFormState({ submitted: true, loading: false, error: null });
       } else {
-        // Fallback for non-Netlify environments (local dev, static preview)
-        // or server response handling
+        // Fallback for non-Netlify environments (local dev, preview)
         setFormState({ submitted: true, loading: false, error: null });
       }
     } catch {

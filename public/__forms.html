@@ -5,8 +5,11 @@
   <title>Netlify Form Detection</title>
 </head>
 <body>
+  <!-- Netlify Deploy-Time Form Detection -->
+  <!-- Because Next.js renders forms dynamically via React, this static HTML allows Netlify to parse and register the forms automatically during build time. -->
+
   <!-- 1. Mentor Application Form -->
-  <form name="mentor-application" netlify netlify-honeypot="bot-field" hidden>
+  <form name="mentor-application" netlify data-netlify="true" netlify-honeypot="bot-field" hidden>
     <input type="hidden" name="form-name" value="mentor-application" />
     <input type="text" name="bot-field" />
     <input type="text" name="name" />
@@ -21,7 +24,7 @@
   </form>
 
   <!-- 2. School / Organization Partnership Form -->
-  <form name="partner-inquiry" netlify netlify-honeypot="bot-field" hidden>
+  <form name="partner-inquiry" netlify data-netlify="true" netlify-honeypot="bot-field" hidden>
     <input type="hidden" name="form-name" value="partner-inquiry" />
     <input type="text" name="bot-field" />
     <input type="text" name="orgName" />
@@ -37,8 +40,17 @@
   </form>
 
   <!-- 3. General Message Form -->
-  <form name="general-message" netlify netlify-honeypot="bot-field" hidden>
+  <form name="general-message" netlify data-netlify="true" netlify-honeypot="bot-field" hidden>
     <input type="hidden" name="form-name" value="general-message" />
+    <input type="text" name="bot-field" />
+    <input type="text" name="name" />
+    <input type="email" name="email" />
+    <textarea name="message"></textarea>
+  </form>
+
+  <!-- 4. Default Contact Form (Standard Netlify Example) -->
+  <form name="contact" netlify data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="form-name" value="contact" />
     <input type="text" name="bot-field" />
     <input type="text" name="name" />
     <input type="email" name="email" />
