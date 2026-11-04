@@ -104,9 +104,9 @@ export default function ImpactPage() {
       src: '/images/student-writing.png',
       title: 'Hour 2: Goal Authoring in Form 3',
       category: 'hubs' as const,
-      categoryLabel: 'Sunday Hubs',
-      caption: 'A mentee at Murang\'a High Hub writes her 3-year academic and career roadmap into her personal logotherapy journal.',
-      location: 'Murang\'a High School Hub',
+      categoryLabel: 'Sunday Sessions',
+      caption: 'A mentee at Murang\'a High School writes her 3-year academic and career roadmap into her personal mentorship journal.',
+      location: 'Murang\'a High School',
     },
     {
       id: 'photo-2',
@@ -124,25 +124,25 @@ export default function ImpactPage() {
       category: 'wellbeing' as const,
       categoryLabel: 'Mental Wellbeing',
       caption: 'Emotional regulation and self-compassion frameworks helping youth navigate domestic trauma, parental alcoholism, and household stress.',
-      location: 'Kangema Girls Hub',
+      location: 'Kangema Girls Secondary School',
     },
     {
       id: 'photo-4',
       src: '/images/bg-interlocked-hands.jpg',
       title: 'Solidarity & Peer Accountability',
       category: 'hubs' as const,
-      categoryLabel: 'Sunday Hubs',
+      categoryLabel: 'Sunday Sessions',
       caption: 'Four secondary school mentees concluding their Hour 4 one-on-one session with a shared pledge of mutual support.',
-      location: 'Ihura Secondary Hub',
+      location: 'Ihura Secondary School',
     },
     {
       id: 'photo-5',
       src: '/images/hero-classroom.png',
       title: 'Hour 1: Group Empowerment Assembly',
       category: 'hubs' as const,
-      categoryLabel: 'Sunday Hubs',
+      categoryLabel: 'Sunday Sessions',
       caption: 'Over 80 students gathered in the central hall for the Sunday morning CBT resilience check-in and group reflection.',
-      location: 'Maragua Ridge Hub',
+      location: 'Maragua Ridge Center',
     },
     {
       id: 'photo-6',
@@ -249,7 +249,7 @@ export default function ImpactPage() {
                 {impactData.summary.activeHubsCount}+
               </div>
               <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
-                partner school hubs
+                partner secondary schools
               </p>
             </div>
 
@@ -307,7 +307,7 @@ export default function ImpactPage() {
             {/* Live Database status pill */}
             <div className="flex items-center gap-2 self-start md:self-auto bg-white/80 border border-slate-200/80 px-3.5 py-1.5 rounded-full text-xs font-semibold text-[#172B36]">
               <Database className="w-3.5 h-3.5 text-[#EF9332]" />
-              <span>{impactData.liveConnected ? 'Live Supabase Ingestion' : 'Verified M&E Benchmark'}</span>
+              <span>{impactData.liveConnected ? 'Live Database Connected' : 'Verified M&E Benchmark'}</span>
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
             </div>
           </div>

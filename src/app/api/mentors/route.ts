@@ -67,3 +67,43 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+export async function PATCH(req: NextRequest) {
+  try {
+    const { id, active, background_check_passed, assigned_hub_id } = await req.json();
+    if (!id) {
+      return NextResponse.json({ success: false, error: 'Mentor ID is required' }, { status: 400 });
+    }
+
+    const updates: string[] = [];
+    const params: any[] = [];
+
+    if (active !== undefined) {
+      params.push(Boolean(active));
+      updates.push(`active = $${params.length}`);
+    }
+    if (background_check_passed !== undefined) {
+      params.push(Boolean(background_check_passed));
+      updates.push(`background_check_passed = $${params.length}`);
+    }
+    if (assigned_hub_id !== undefined) {
+      params.push(assigned_hub_id);
+      updates.push(`assigned_hub_id = $${params.length}`);
+    }
+
+    if (updates.length === 0) {
+      return NextResponse.json({ success: false, error: 'No fields to update' }, { status: 400 });
+    }
+
+    params.push(id);
+    const sql = `UPDATE mentors SET ${updates.join(', ')} WHERE id = $${params.length} RETURNING *;`;
+    const res = await query(sql, params);
+
+    return NextResponse.json({
+      success: true,
+      mentor: res.rows[0],
+    });
+  } catch (error: any) {
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+}

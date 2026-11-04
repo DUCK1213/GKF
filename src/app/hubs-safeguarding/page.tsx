@@ -82,11 +82,11 @@ export default function GetInvolvedPage() {
   const roleCards = [
     {
       title: 'Mentor',
-      body: 'Walk alongside a young person through the Sunday sessions — group leadership, self-authoring guidance and one-on-one coaching. All mentors complete vetting and child-protection training before being placed in a school hub.',
+      body: 'Walk alongside a young person through the Sunday sessions — group leadership, personal guidance and one-on-one coaching. All mentors complete vetting and child-protection training before being placed in a partner school.',
     },
     {
       title: 'Partner',
-      body: 'Schools host the Sunday hubs; companies, NGOs and local funds sponsor student cohorts. Partnerships are formalised through MOUs so everyone knows their role and the programme runs safely inside an institution.',
+      body: 'Schools host the Sunday sessions; companies, NGOs and local funds sponsor student cohorts. Partnerships are formalised through MOUs so everyone knows their role and the programme runs safely inside an institution.',
     },
     {
       title: 'Give your skills',
@@ -359,7 +359,7 @@ export default function GetInvolvedPage() {
                             className="w-full border border-[#D9E8E2] rounded-xl px-4 py-3 text-sm text-[#172B36] bg-white focus:outline-none focus:border-[#EF9332] transition"
                           >
                             <option value="">Select…</option>
-                            <option value="school-hub">Host a school hub</option>
+                            <option value="school-partner">Partner as a secondary school</option>
                             <option value="cohort-sponsor">Sponsor a student cohort</option>
                             <option value="ngo">NGO collaboration</option>
                             <option value="corporate">Corporate CSR partnership</option>

@@ -84,8 +84,8 @@ export default function Navbar() {
                         <BookOpen className="w-4 h-4" />
                       </div>
                       <div>
-                        <div className="font-bold text-[#172B36]">Overview & Philosophy</div>
-                        <div className="text-[11px] text-slate-500">In-School Hubs & Sunday Rhythm</div>
+                        <div className="font-bold text-[#172B36]">Overview &amp; Philosophy</div>
+                        <div className="text-[11px] text-slate-500">Partner Schools &amp; Sunday Rhythm</div>
                       </div>
                     </Link>
 
@@ -282,7 +282,7 @@ export default function Navbar() {
                 <div>
                   <h4 className="font-bold text-sm text-[#172B36]">Join as an Adult Mentor</h4>
                   <p className="text-slate-600 mt-1">
-                    Commit 4 hours on Sundays at one of our partner school hubs. Undergo DCI background checks and safeguarding training.
+                    Commit 4 hours on Sundays at one of our partner schools. Undergo DCI background checks and safeguarding training.
                   </p>
                 </div>
               </Link>
@@ -298,7 +298,7 @@ export default function Navbar() {
                 <div>
                   <h4 className="font-bold text-sm text-[#172B36]">Partner Your School with Us</h4>
                   <p className="text-slate-600 mt-1">
-                    Establish an in-school mentorship hub under formal MOU. Provide classrooms for Sunday sessions with zero transport barriers.
+                    Establish an in-school mentorship center under formal MOU. Provide classrooms for Sunday sessions with zero transport barriers.
                   </p>
                 </div>
               </Link>
