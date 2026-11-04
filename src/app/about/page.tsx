@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import GKFPillarsSection from '@/components/GKFPillarsSection';
+import GKFCharterSection from '@/components/GKFCharterSection';
 
 export default function AboutPage() {
   return (
@@ -108,6 +109,9 @@ export default function AboutPage() {
 
       {/* ── THE 7 PILLARS OF GKF ── */}
       <GKFPillarsSection variant="white" />
+
+      {/* ── GKF FOUNDATION FOUNDING CHARTER ── */}
+      <GKFCharterSection />
 
       {/* ── SECTION 3: MONITORING & EVALUATION ── */}
       <section className="bg-[#EBF2EE] py-16 sm:py-24">
@@ -251,7 +255,7 @@ export default function AboutPage() {
                 See the program in action
               </h2>
               <p className="text-[#172B36]/70 text-sm sm:text-base max-w-xl leading-relaxed">
-                Learn how the Sunday mentorship hubs, parent workshops and school partnerships work on the ground.
+                Learn how the Sunday mentorship sessions, parent workshops and school partnerships work on the ground.
               </p>
             </div>
 
