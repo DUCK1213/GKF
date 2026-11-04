@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import GKFPillarsSection from '@/components/GKFPillarsSection';
 
 export default function AboutPage() {
   return (
@@ -104,6 +105,9 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      {/* ── THE 7 PILLARS OF GKF ── */}
+      <GKFPillarsSection variant="white" />
 
       {/* ── SECTION 3: MONITORING & EVALUATION ── */}
       <section className="bg-[#EBF2EE] py-16 sm:py-24">

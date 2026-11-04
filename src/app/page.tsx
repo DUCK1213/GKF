@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import GKFLogo from '@/components/GKFLogo';
 import GKFHelpingHand from '@/components/GKFHelpingHand';
+import GKFPillarsSection from '@/components/GKFPillarsSection';
 import {
   Compass,
   Users,
@@ -102,119 +103,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── 2. KEY IMPACT PILLARS (3 cards) ──────────────────── */}
-      <section className="bg-white py-20 sm:py-24 relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div>
-              <p className="text-[11px] font-semibold tracking-[0.22em] uppercase text-[#172B36]/60">
-                What we do
-              </p>
-              <h2
-                className="text-3xl sm:text-4xl font-bold text-[#172B36] tracking-tight mt-2"
-                style={{ fontFamily: 'var(--font-montserrat), Montserrat, sans-serif' }}
-              >
-                Three pillars of lasting change
-              </h2>
-            </div>
-            <p className="text-sm text-[#172B36]/60 max-w-md">
-              A comprehensive framework integrating individual purpose, domestic stability, and long-term economic mobility.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            {/* Pillar 01 */}
-            <div className="group bg-white rounded-2xl border border-[#D9E8E2] p-8 hover:border-[#EF9332]/60 hover:shadow-lg transition-all duration-300 relative overflow-hidden flex flex-col justify-between">
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#EF9332] to-[#FFC801]" />
-              <div>
-                <div className="flex items-center justify-between">
-                  <span
-                    className="text-xs font-bold text-[#EF9332] tracking-wider"
-                    style={{ fontFamily: 'var(--font-montserrat), Montserrat, sans-serif' }}
-                  >
-                    01
-                  </span>
-                  <div className="w-8 h-8 rounded-full bg-[#EF9332]/10 text-[#EF9332] flex items-center justify-center">
-                    <Compass className="w-4 h-4" />
-                  </div>
-                </div>
-                <h3
-                  className="text-lg font-bold text-[#172B36] mt-4"
-                  style={{ fontFamily: 'var(--font-montserrat), Montserrat, sans-serif' }}
-                >
-                  Holistic Youth Guidance
-                </h3>
-                <p className="text-sm text-[#172B36]/65 leading-relaxed mt-3">
-                  Helping young people discover their core values, set clear life goals, and build unshakeable self-efficacy.
-                </p>
-              </div>
-              <div className="mt-6 pt-4 border-t border-slate-100 flex items-center text-xs font-semibold text-[#EF9332] group-hover:translate-x-1 transition-transform">
-                <span>Purpose & self-authoring</span>
-              </div>
-            </div>
-
-            {/* Pillar 02 */}
-            <div className="group bg-white rounded-2xl border border-[#D9E8E2] p-8 hover:border-[#FFC801] hover:shadow-lg transition-all duration-300 relative overflow-hidden flex flex-col justify-between">
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#FFC801] to-[#EF9332]" />
-              <div>
-                <div className="flex items-center justify-between">
-                  <span
-                    className="text-xs font-bold text-[#b38b00] tracking-wider"
-                    style={{ fontFamily: 'var(--font-montserrat), Montserrat, sans-serif' }}
-                  >
-                    02
-                  </span>
-                  <div className="w-8 h-8 rounded-full bg-[#FFC801]/15 text-[#b38b00] flex items-center justify-center">
-                    <Users className="w-4 h-4" />
-                  </div>
-                </div>
-                <h3
-                  className="text-lg font-bold text-[#172B36] mt-4"
-                  style={{ fontFamily: 'var(--font-montserrat), Montserrat, sans-serif' }}
-                >
-                  Reinforced Homes & Communities
-                </h3>
-                <p className="text-sm text-[#172B36]/65 leading-relaxed mt-3">
-                  Partnering with parents and guardians to build supportive environments that nurture growth beyond the classroom.
-                </p>
-              </div>
-              <div className="mt-6 pt-4 border-t border-slate-100 flex items-center text-xs font-semibold text-[#b38b00] group-hover:translate-x-1 transition-transform">
-                <span>Parent workshops & guardian support</span>
-              </div>
-            </div>
-
-            {/* Pillar 03 */}
-            <div className="group bg-white rounded-2xl border border-[#D9E8E2] p-8 hover:border-[#114C5A]/60 hover:shadow-lg transition-all duration-300 relative overflow-hidden flex flex-col justify-between">
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#114C5A] to-[#0B3D2E]" />
-              <div>
-                <div className="flex items-center justify-between">
-                  <span
-                    className="text-xs font-bold text-[#114C5A] tracking-wider"
-                    style={{ fontFamily: 'var(--font-montserrat), Montserrat, sans-serif' }}
-                  >
-                    03
-                  </span>
-                  <div className="w-8 h-8 rounded-full bg-[#114C5A]/10 text-[#114C5A] flex items-center justify-center">
-                    <GraduationCap className="w-4 h-4" />
-                  </div>
-                </div>
-                <h3
-                  className="text-lg font-bold text-[#172B36] mt-4"
-                  style={{ fontFamily: 'var(--font-montserrat), Montserrat, sans-serif' }}
-                >
-                  Lifelong Educational Pathways
-                </h3>
-                <p className="text-sm text-[#172B36]/65 leading-relaxed mt-3">
-                  Sponsoring higher education and vocational training to ensure financial barriers never halt ambition.
-                </p>
-              </div>
-              <div className="mt-6 pt-4 border-t border-slate-100 flex items-center text-xs font-semibold text-[#114C5A] group-hover:translate-x-1 transition-transform">
-                <span>Scholarships & vocational grants</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* ── 2. THE 7 PILLARS OF GKF ──────────────────────────── */}
+      <GKFPillarsSection variant="white" />
 
       {/* ── 3. MISSION & VISION (WITH WATER RIPPLE CATALYST IMAGE) ──────────────── */}
       <section className="bg-[#EBF2EE] py-20 sm:py-24 relative overflow-hidden">
