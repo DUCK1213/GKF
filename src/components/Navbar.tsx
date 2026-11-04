@@ -141,6 +141,18 @@ export default function Navbar() {
               >
                 Get Involved
               </Link>
+
+              <Link
+                href="/portal"
+                className={`transition px-3.5 py-1.5 rounded-full flex items-center gap-1.5 ${
+                  pathname.startsWith('/portal')
+                    ? 'bg-[#172B36] text-white font-semibold shadow-sm'
+                    : 'text-[#172B36]/75 hover:text-[#172B36]'
+                }`}
+              >
+                <span>Portal</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-[#EF9332]" />
+              </Link>
             </nav>
 
             {/* Right Action: Pill Button */}
@@ -222,6 +234,16 @@ export default function Navbar() {
               className="block py-2 font-bold text-[#172B36]"
             >
               Get Involved
+            </Link>
+            <Link
+              href="/portal"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-2 font-bold text-[#172B36] flex items-center justify-between border-t border-slate-100 pt-3"
+            >
+              <span>Operations Portal</span>
+              <span className="text-[10px] bg-[#EF9332]/20 text-[#172B36] font-semibold px-2 py-0.5 rounded-full">
+                Live Data & Intake
+              </span>
             </Link>
           </div>
         )}

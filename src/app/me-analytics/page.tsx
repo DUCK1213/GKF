@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -30,9 +30,55 @@ import {
   ChevronRight,
   Eye,
   Filter,
+  Database,
+  Activity,
 } from 'lucide-react';
 
 export default function ImpactPage() {
+  // Live database impact metrics
+  const [impactData, setImpactData] = useState<{
+    liveConnected: boolean;
+    summary: {
+      totalStudentsCount: number;
+      activeHubsCount: number;
+      retentionRate: number;
+      weeklyHours: number;
+      totalSessionsLogged: number;
+    };
+    metrics: {
+      selfEfficacy: { baseline: number; endline: number; delta: string };
+      resilience: { baseline: number; endline: number; delta: string };
+      goalClarity: { baseline: number; endline: number; delta: string };
+    };
+    benchmarks: Array<Record<string, any>>;
+  }>({
+    liveConnected: false,
+    summary: {
+      totalStudentsCount: 1200,
+      activeHubsCount: 15,
+      retentionRate: 94,
+      weeklyHours: 4,
+      totalSessionsLogged: 124,
+    },
+    metrics: {
+      selfEfficacy: { baseline: 52, endline: 75, delta: '+23' },
+      resilience: { baseline: 48, endline: 73, delta: '+25' },
+      goalClarity: { baseline: 44, endline: 81, delta: '+37' },
+    },
+    benchmarks: ME_SCALE_BENCHMARKS,
+  });
+
+  useEffect(() => {
+    fetch('/api/impact')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setImpactData(data);
+        }
+      })
+      .catch((err) => console.warn('Could not load live impact data:', err));
+  }, []);
+
   // Gallery category filter
   const [galleryFilter, setGalleryFilter] = useState<'all' | 'hubs' | 'community' | 'wellbeing' | 'retreats'>('all');
   const [selectedPhoto, setSelectedPhoto] = useState<{
@@ -187,7 +233,7 @@ export default function ImpactPage() {
                 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#172B36] tracking-tight"
                 style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
               >
-                1,200+
+                {impactData.summary.totalStudentsCount.toLocaleString()}+
               </div>
               <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
                 students enrolled
@@ -200,7 +246,7 @@ export default function ImpactPage() {
                 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#172B36] tracking-tight"
                 style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
               >
-                15+
+                {impactData.summary.activeHubsCount}+
               </div>
               <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
                 partner school hubs
@@ -213,7 +259,7 @@ export default function ImpactPage() {
                 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#172B36] tracking-tight"
                 style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
               >
-                94%
+                {impactData.summary.retentionRate}%
               </div>
               <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
                 goal retention rate
@@ -226,7 +272,7 @@ export default function ImpactPage() {
                 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#172B36] tracking-tight"
                 style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
               >
-                4 hrs
+                {impactData.summary.weeklyHours} hrs
               </div>
               <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
                 of structured mentorship, every Sunday
@@ -239,22 +285,31 @@ export default function ImpactPage() {
       {/* ── SECTION 3: M&E DASHBOARD (BASELINE VS. END-LINE) (SCREENSHOT 1) ── */}
       <section className="bg-[#EBF2EE] py-16 sm:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-10">
-            <span
-              className="text-[12px] font-semibold tracking-[0.2em] text-[#172B36]/70 uppercase mb-3 block"
-              style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
-            >
-              M&amp;E DASHBOARD
-            </span>
-            <h2
-              className="text-3xl sm:text-4xl font-bold text-[#172B36] mb-3"
-              style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
-            >
-              Baseline vs. end-line outcomes
-            </h2>
-            <p className="text-sm sm:text-base text-[#172B36]/75 max-w-2xl leading-relaxed">
-              Aggregated scores from the most recent evaluated cohort, measured at intake and at program completion with internationally validated instruments.
-            </p>
+          <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <span
+                className="text-[12px] font-semibold tracking-[0.2em] text-[#172B36]/70 uppercase mb-3 block"
+                style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
+              >
+                M&amp;E DASHBOARD
+              </span>
+              <h2
+                className="text-3xl sm:text-4xl font-bold text-[#172B36] mb-3"
+                style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
+              >
+                Baseline vs. end-line outcomes
+              </h2>
+              <p className="text-sm sm:text-base text-[#172B36]/75 max-w-2xl leading-relaxed">
+                Aggregated scores from evaluated cohorts, measured at intake baseline and graduation assessment with internationally validated psychometric instruments.
+              </p>
+            </div>
+
+            {/* Live Database status pill */}
+            <div className="flex items-center gap-2 self-start md:self-auto bg-white/80 border border-slate-200/80 px-3.5 py-1.5 rounded-full text-xs font-semibold text-[#172B36]">
+              <Database className="w-3.5 h-3.5 text-[#EF9332]" />
+              <span>{impactData.liveConnected ? 'Live Supabase Ingestion' : 'Verified M&E Benchmark'}</span>
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            </div>
           </div>
 
           {/* 3 Outcome Cards */}
@@ -276,7 +331,7 @@ export default function ImpactPage() {
                 className="text-2xl sm:text-3xl font-black text-[#EF9332]"
                 style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
               >
-                +23
+                {impactData.metrics.selfEfficacy.delta}%
               </div>
             </div>
 
@@ -297,7 +352,7 @@ export default function ImpactPage() {
                 className="text-2xl sm:text-3xl font-black text-[#EF9332]"
                 style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
               >
-                +25
+                {impactData.metrics.resilience.delta}%
               </div>
             </div>
 
@@ -318,7 +373,7 @@ export default function ImpactPage() {
                 className="text-2xl sm:text-3xl font-black text-[#EF9332]"
                 style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
               >
-                +37
+                {impactData.metrics.goalClarity.delta}%
               </div>
             </div>
           </div>
@@ -353,7 +408,7 @@ export default function ImpactPage() {
             <div className="h-64 sm:h-72 w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
-                  data={ME_SCALE_BENCHMARKS}
+                  data={impactData.benchmarks}
                   margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
@@ -385,15 +440,15 @@ export default function ImpactPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-slate-100 text-xs text-slate-600 leading-relaxed">
               <div>
-                <strong className="text-[#172B36] block mb-0.5">Self-Efficacy (+23%)</strong>
+                <strong className="text-[#172B36] block mb-0.5">Self-Efficacy ({impactData.metrics.selfEfficacy.delta}%)</strong>
                 Students report elevated confidence in organizing personal effort and facing academic obstacles without quitting.
               </div>
               <div>
-                <strong className="text-[#172B36] block mb-0.5">Resilience (+25%)</strong>
+                <strong className="text-[#172B36] block mb-0.5">Resilience ({impactData.metrics.resilience.delta}%)</strong>
                 CBT tools provide emotional equilibrium when confronting family stressors, alcoholism at home, or peer pressure.
               </div>
               <div>
-                <strong className="text-[#172B36] block mb-0.5">Goal Clarity (+37%)</strong>
+                <strong className="text-[#172B36] block mb-0.5">Goal Clarity ({impactData.metrics.goalClarity.delta}%)</strong>
                 Frankl&apos;s logotherapy exercises provide concrete 3-year roadmaps across education, agriculture, and vocational skills.
               </div>
             </div>
