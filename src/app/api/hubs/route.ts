@@ -6,6 +6,7 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     const withMentorsOnly = searchParams.get('mentorsOnly') === 'true';
     const constituency = searchParams.get('constituency');
+    const level = searchParams.get('level');
 
     let sql = `
       SELECT
@@ -26,6 +27,11 @@ export async function GET(req: NextRequest) {
       params.push(constituency);
     }
 
+    if (level && level !== 'all') {
+      sql += ` AND h.school_level = $${params.length + 1}`;
+      params.push(level);
+    }
+
     sql += ' ORDER BY h.school_name ASC;';
 
     const res = await query(sql, params);
@@ -39,12 +45,15 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const id = body.id || `sch-${Date.now().toString(36)}`;
+    const level = body.school_level || (body.school_name?.toLowerCase().includes('primary') ? 'Primary' : 'Secondary');
+    const category = body.school_category || (level === 'Primary' ? 'Public Primary' : 'Sub-County');
+
     const res = await query(
       `INSERT INTO hubs (
-         id, school_name, location, county, sub_county, constituency, school_category,
+         id, school_name, location, county, sub_county, constituency, school_category, school_level,
          active_status, coordinator_name, student_count, mentor_count
        )
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
        RETURNING *;`,
       [
         id,
@@ -53,7 +62,8 @@ export async function POST(req: NextRequest) {
         body.county || "Murang'a County",
         body.sub_county || 'Kangema',
         body.constituency || 'Kangema',
-        body.school_category || 'Sub-County',
+        category,
+        level,
         body.active_status !== false,
         body.coordinator_name || null,
         0,

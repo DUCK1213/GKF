@@ -54,6 +54,7 @@ export default function PortalPage() {
   const [studentSearch, setStudentSearch] = useState('');
   const [selectedSchoolFilter, setSelectedSchoolFilter] = useState('all');
   const [schoolCategoryFilter, setSchoolCategoryFilter] = useState('all');
+  const [schoolLevelFilter, setSchoolLevelFilter] = useState<'all' | 'Primary' | 'Secondary'>('all');
   const [schoolSearch, setSchoolSearch] = useState('');
   const [mentorFilter, setMentorFilter] = useState<'all' | 'active' | 'pending'>('all');
 
@@ -103,6 +104,7 @@ export default function PortalPage() {
     location: '',
     sub_county: 'Kangema',
     constituency: 'Kangema',
+    school_level: 'Secondary',
     school_category: 'Sub-County',
     coordinator_name: '',
   });
@@ -384,6 +386,7 @@ export default function PortalPage() {
           location: '',
           sub_county: 'Kangema',
           constituency: 'Kangema',
+          school_level: 'Secondary',
           school_category: 'Sub-County',
           coordinator_name: '',
         });
@@ -411,7 +414,8 @@ export default function PortalPage() {
       (s.school_name || '').toLowerCase().includes(schoolSearch.toLowerCase()) ||
       (s.location || '').toLowerCase().includes(schoolSearch.toLowerCase());
     const matchCategory = schoolCategoryFilter === 'all' || s.school_category === schoolCategoryFilter;
-    return matchSearch && matchCategory;
+    const matchLevel = schoolLevelFilter === 'all' || s.school_level === schoolLevelFilter;
+    return matchSearch && matchCategory && matchLevel;
   });
 
   // ── Filtered Mentors ──
@@ -536,11 +540,20 @@ export default function PortalPage() {
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-[#172B36] focus:outline-none focus:ring-2 focus:ring-[#EF9332]"
                 >
                   <option value="">-- Choose a school --</option>
-                  {schools.map(s => (
-                    <option key={s.id} value={s.id}>
-                      {s.school_name} {s.school_category ? `(${s.school_category})` : ''} - {s.location || 'Kangema'}
-                    </option>
-                  ))}
+                  <optgroup label="Secondary Schools (Kangema & Area)">
+                    {schools.filter(s => s.school_level !== 'Primary').map(s => (
+                      <option key={s.id} value={s.id}>
+                        {s.school_name} {s.school_category ? `(${s.school_category})` : ''} - {s.location || 'Kangema'}
+                      </option>
+                    ))}
+                  </optgroup>
+                  <optgroup label="Primary Schools (Kangema Constituency)">
+                    {schools.filter(s => s.school_level === 'Primary').map(s => (
+                      <option key={s.id} value={s.id}>
+                        {s.school_name} {s.school_category ? `(${s.school_category})` : ''} - {s.location || 'Kangema'}
+                      </option>
+                    ))}
+                  </optgroup>
                 </select>
                 <p className="text-[11px] text-slate-500 mt-1">
                   Once your application is approved, this school will be opened for student enrollment!
@@ -694,7 +707,7 @@ export default function PortalPage() {
                 Schools &amp; Mentorship Portal
               </h1>
               <p className="text-slate-300 text-sm mt-1 max-w-2xl leading-relaxed">
-                Register students, support partner secondary schools across Kangema constituency, and keep Sunday mentorship records organized.
+                Register students, support partner primary and secondary schools across Kangema constituency, and keep Sunday mentorship records organized.
               </p>
             </div>
 
@@ -711,6 +724,9 @@ export default function PortalPage() {
                   <div className="text-slate-400 font-medium">Kangema Schools</div>
                   <div className="text-lg font-black text-[#EF9332]" style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}>
                     {schools.length}
+                  </div>
+                  <div className="text-[10px] text-slate-300">
+                    {schools.filter(s => s.school_level === 'Primary').length} Pri · {schools.filter(s => s.school_level !== 'Primary').length} Sec
                   </div>
                 </div>
                 <div className="px-3 border-r border-white/10">
@@ -855,7 +871,7 @@ export default function PortalPage() {
                       >
                         {availableSchoolsForStudents.map(s => (
                           <option key={s.id} value={s.id}>
-                            {s.school_name} ({s.location || 'Kangema'}) — {s.live_mentor_count || 1} mentor(s)
+                            [{s.school_level || 'School'}] {s.school_name} ({s.location || 'Kangema'}) — {s.live_mentor_count || 1} mentor(s)
                           </option>
                         ))}
                       </select>
@@ -881,7 +897,7 @@ export default function PortalPage() {
                       <label className="block text-slate-700 mb-1">Age *</label>
                       <input
                         type="number"
-                        min="12"
+                        min="8"
                         max="24"
                         value={newStudent.age}
                         onChange={e => setNewStudent({ ...newStudent, age: parseInt(e.target.value, 10) || 15 })}
@@ -899,10 +915,22 @@ export default function PortalPage() {
                         onChange={e => setNewStudent({ ...newStudent, grade_level: e.target.value })}
                         className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-[#172B36] focus:outline-none focus:ring-2 focus:ring-[#EF9332]"
                       >
-                        <option value="Form 1">Form 1 (Intake)</option>
-                        <option value="Form 2">Form 2</option>
-                        <option value="Form 3">Form 3</option>
-                        <option value="Form 4">Form 4 (Graduating)</option>
+                        <optgroup label="Secondary (Forms)">
+                          <option value="Form 1">Form 1 (Intake)</option>
+                          <option value="Form 2">Form 2</option>
+                          <option value="Form 3">Form 3</option>
+                          <option value="Form 4">Form 4 (Graduating)</option>
+                        </optgroup>
+                        <optgroup label="Junior Secondary (CBC Grades)">
+                          <option value="Grade 7">Grade 7 (JSS)</option>
+                          <option value="Grade 8">Grade 8 (JSS)</option>
+                          <option value="Grade 9">Grade 9 (JSS)</option>
+                        </optgroup>
+                        <optgroup label="Primary (Upper Grades)">
+                          <option value="Grade 6">Grade 6 (Upper Primary)</option>
+                          <option value="Grade 5">Grade 5 (Upper Primary)</option>
+                          <option value="Class 8">Class 8 (Candidate)</option>
+                        </optgroup>
                       </select>
                     </div>
 
@@ -1361,10 +1389,10 @@ export default function PortalPage() {
                     className="text-2xl font-bold text-[#172B36] mt-0.5"
                     style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
                   >
-                    Secondary Schools in Kangema ({filteredSchools.length})
+                    Schools in Kangema ({filteredSchools.length})
                   </h2>
                   <p className="text-xs sm:text-sm text-slate-600 mt-1">
-                    Every secondary school in Kangema constituency. Schools with at least one mentor are marked &quot;Ready for Students&quot;.
+                    Primary and secondary schools across Kangema constituency. Schools with at least one mentor are marked &quot;Ready for Students&quot;.
                   </p>
                 </div>
 
@@ -1379,31 +1407,83 @@ export default function PortalPage() {
                 </div>
               </div>
 
-              {/* Filters & Search */}
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-                <div className="relative w-full sm:w-72">
-                  <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                  <input
-                    type="text"
-                    placeholder="Search school name or area..."
-                    value={schoolSearch}
-                    onChange={e => setSchoolSearch(e.target.value)}
-                    className="w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-[#172B36] focus:outline-none focus:ring-1 focus:ring-[#EF9332]"
-                  />
+              {/* Level Filter Pills & Search */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      setSchoolLevelFilter('all');
+                      setSchoolCategoryFilter('all');
+                    }}
+                    className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition ${
+                      schoolLevelFilter === 'all'
+                        ? 'bg-[#172B36] text-white shadow-sm'
+                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    }`}
+                  >
+                    All Schools ({schools.length})
+                  </button>
+                  <button
+                    onClick={() => {
+                      setSchoolLevelFilter('Primary');
+                      setSchoolCategoryFilter('all');
+                    }}
+                    className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition ${
+                      schoolLevelFilter === 'Primary'
+                        ? 'bg-[#172B36] text-white shadow-sm'
+                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    }`}
+                  >
+                    Primary Schools ({schools.filter(s => s.school_level === 'Primary').length})
+                  </button>
+                  <button
+                    onClick={() => {
+                      setSchoolLevelFilter('Secondary');
+                      setSchoolCategoryFilter('all');
+                    }}
+                    className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition ${
+                      schoolLevelFilter === 'Secondary'
+                        ? 'bg-[#172B36] text-white shadow-sm'
+                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    }`}
+                  >
+                    Secondary Schools ({schools.filter(s => s.school_level !== 'Primary').length})
+                  </button>
                 </div>
 
-                <div className="flex items-center gap-2 w-full sm:w-auto">
-                  <span className="text-slate-500 font-medium">Category:</span>
+                <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                  <div className="relative flex-1 sm:w-56">
+                    <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                    <input
+                      type="text"
+                      placeholder="Search school name..."
+                      value={schoolSearch}
+                      onChange={e => setSchoolSearch(e.target.value)}
+                      className="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-[#172B36] focus:outline-none focus:ring-1 focus:ring-[#EF9332]"
+                    />
+                  </div>
+
                   <select
                     value={schoolCategoryFilter}
                     onChange={e => setSchoolCategoryFilter(e.target.value)}
-                    className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-[#172B36] focus:outline-none"
+                    className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-[#172B36] focus:outline-none"
                   >
                     <option value="all">All Categories</option>
-                    <option value="National">National</option>
-                    <option value="Extra-County">Extra-County</option>
-                    <option value="County">County</option>
-                    <option value="Sub-County">Sub-County</option>
+                    {schoolLevelFilter !== 'Secondary' && (
+                      <>
+                        <option value="Public Primary">Public Primary</option>
+                        <option value="Boarding Primary">Boarding Primary</option>
+                        <option value="Junior Academy">Junior Academy</option>
+                      </>
+                    )}
+                    {schoolLevelFilter !== 'Primary' && (
+                      <>
+                        <option value="National">National</option>
+                        <option value="Extra-County">Extra-County</option>
+                        <option value="County">County</option>
+                        <option value="Sub-County">Sub-County</option>
+                      </>
+                    )}
                   </select>
                 </div>
               </div>
@@ -1414,6 +1494,7 @@ export default function PortalPage() {
                   <thead>
                     <tr className="border-b border-slate-100 text-slate-400 font-semibold uppercase tracking-wider">
                       <th className="py-3 pr-4">School Name</th>
+                      <th className="py-3 px-3">Level</th>
                       <th className="py-3 px-3">Location / Ward</th>
                       <th className="py-3 px-3">Category</th>
                       <th className="py-3 px-3">Mentors</th>
@@ -1431,12 +1512,21 @@ export default function PortalPage() {
                           <td className="py-3.5 pr-4 font-bold text-[#172B36] text-sm">
                             {sch.school_name}
                           </td>
+                          <td className="py-3.5 px-3">
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                              sch.school_level === 'Primary'
+                                ? 'bg-amber-100 text-amber-900'
+                                : 'bg-slate-100 text-slate-800'
+                            }`}>
+                              {sch.school_level || 'Secondary'}
+                            </span>
+                          </td>
                           <td className="py-3.5 px-3 text-slate-600">
                             {sch.location || sch.sub_county || 'Kangema'}
                           </td>
                           <td className="py-3.5 px-3">
                             <span className="bg-slate-100 text-slate-700 px-2.5 py-1 rounded-full text-[11px] font-medium">
-                              {sch.school_category || 'Sub-County'}
+                              {sch.school_category || 'General'}
                             </span>
                           </td>
                           <td className="py-3.5 px-3">
@@ -1480,7 +1570,7 @@ export default function PortalPage() {
                         className="font-extrabold text-xl text-[#172B36] mt-0.5"
                         style={{ fontFamily: 'var(--font-montserrat), sans-serif' }}
                       >
-                        Add a Secondary School
+                        Add a Partner School
                       </h3>
                     </div>
                     <button
@@ -1497,7 +1587,7 @@ export default function PortalPage() {
                       <input
                         type="text"
                         required
-                        placeholder="e.g. Kanyenyaini Secondary School"
+                        placeholder="e.g. Kanyenyaini Primary School or Secondary School"
                         value={newSchool.school_name}
                         onChange={e => setNewSchool({ ...newSchool, school_name: e.target.value })}
                         className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-[#172B36] focus:outline-none focus:ring-2 focus:ring-[#EF9332]"
@@ -1506,16 +1596,24 @@ export default function PortalPage() {
 
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="block text-slate-700 mb-1">Location / Village / Town *</label>
-                        <input
-                          type="text"
-                          required
-                          placeholder="e.g. Kanyenyaini Center"
-                          value={newSchool.location}
-                          onChange={e => setNewSchool({ ...newSchool, location: e.target.value })}
+                        <label className="block text-slate-700 mb-1">School Level *</label>
+                        <select
+                          value={newSchool.school_level}
+                          onChange={e => {
+                            const lvl = e.target.value;
+                            setNewSchool({
+                              ...newSchool,
+                              school_level: lvl,
+                              school_category: lvl === 'Primary' ? 'Public Primary' : 'Sub-County',
+                            });
+                          }}
                           className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-[#172B36] focus:outline-none focus:ring-2 focus:ring-[#EF9332]"
-                        />
+                        >
+                          <option value="Secondary">Secondary School</option>
+                          <option value="Primary">Primary School</option>
+                        </select>
                       </div>
+
                       <div>
                         <label className="block text-slate-700 mb-1">School Category *</label>
                         <select
@@ -1523,19 +1621,42 @@ export default function PortalPage() {
                           onChange={e => setNewSchool({ ...newSchool, school_category: e.target.value })}
                           className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-[#172B36] focus:outline-none focus:ring-2 focus:ring-[#EF9332]"
                         >
-                          <option value="Sub-County">Sub-County Secondary</option>
-                          <option value="County">County Secondary</option>
-                          <option value="Extra-County">Extra-County Secondary</option>
-                          <option value="National">National Secondary</option>
+                          {newSchool.school_level === 'Primary' ? (
+                            <>
+                              <option value="Public Primary">Public Primary</option>
+                              <option value="Boarding Primary">Boarding Primary</option>
+                              <option value="Junior Academy">Junior Academy</option>
+                              <option value="Special Unit">Special Unit Primary</option>
+                            </>
+                          ) : (
+                            <>
+                              <option value="Sub-County">Sub-County Secondary</option>
+                              <option value="County">County Secondary</option>
+                              <option value="Extra-County">Extra-County Secondary</option>
+                              <option value="National">National Secondary</option>
+                            </>
+                          )}
                         </select>
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-slate-700 mb-1">Principal / Coordinator Name (Optional)</label>
+                      <label className="block text-slate-700 mb-1">Location / Village / Town *</label>
                       <input
                         type="text"
-                        placeholder="e.g. Mr. John Mwangi"
+                        required
+                        placeholder="e.g. Kanyenyaini Center, Rwathia, Muguru"
+                        value={newSchool.location}
+                        onChange={e => setNewSchool({ ...newSchool, location: e.target.value })}
+                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-[#172B36] focus:outline-none focus:ring-2 focus:ring-[#EF9332]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-slate-700 mb-1">Headteacher / Principal / Contact Person</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Mrs. Mary Wanjohi"
                         value={newSchool.coordinator_name}
                         onChange={e => setNewSchool({ ...newSchool, coordinator_name: e.target.value })}
                         className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-[#172B36] focus:outline-none focus:ring-2 focus:ring-[#EF9332]"
@@ -1636,18 +1757,27 @@ export default function PortalPage() {
                   </div>
 
                   <div>
-                    <label className="block text-slate-700 mb-1">Assigned Secondary School *</label>
+                    <label className="block text-slate-700 mb-1">Assigned Partner School *</label>
                     <select
                       value={newMentor.assigned_hub_id}
                       onChange={e => setNewMentor({ ...newMentor, assigned_hub_id: e.target.value })}
                       required
                       className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-[#172B36] focus:outline-none focus:ring-2 focus:ring-[#EF9332]"
                     >
-                      {schools.map(s => (
-                        <option key={s.id} value={s.id}>
-                          {s.school_name} ({s.location || 'Kangema'})
-                        </option>
-                      ))}
+                      <optgroup label="Secondary Schools">
+                        {schools.filter(s => s.school_level !== 'Primary').map(s => (
+                          <option key={s.id} value={s.id}>
+                            {s.school_name} ({s.location || 'Kangema'})
+                          </option>
+                        ))}
+                      </optgroup>
+                      <optgroup label="Primary Schools">
+                        {schools.filter(s => s.school_level === 'Primary').map(s => (
+                          <option key={s.id} value={s.id}>
+                            {s.school_name} ({s.location || 'Kangema'})
+                          </option>
+                        ))}
+                      </optgroup>
                     </select>
                   </div>
 
