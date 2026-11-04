@@ -45,24 +45,30 @@ export default function GetInvolvedPage() {
     setFormState({ submitted: false, loading: true, error: null });
 
     try {
-      // Post to the static fallback HTML file so Netlify intercepts it without Next.js routing issues
-      const response = await fetch('/__forms.html', {
+      // 1. Post to PostgreSQL Database Pipeline API
+      const dbPromise = fetch('/api/pipeline/forms', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          'form-name': formName,
+          ...data,
+        }),
+      }).catch((err) => console.warn('[DB Pipeline]:', err));
+
+      // 2. Post to Netlify Static Forms Endpoint
+      const netlifyPromise = fetch('/__forms.html', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: encode({
           'form-name': formName,
           ...data,
         }),
-      });
+      }).catch((err) => console.warn('[Netlify Forms]:', err));
 
-      if (response.ok) {
-        setFormState({ submitted: true, loading: false, error: null });
-      } else {
-        // Fallback for non-Netlify environments (local dev, preview)
-        setFormState({ submitted: true, loading: false, error: null });
-      }
+      await Promise.allSettled([dbPromise, netlifyPromise]);
+      setFormState({ submitted: true, loading: false, error: null });
     } catch {
-      // In case of network errors, still gracefully fallback so UX is preserved
+      // Graceful fallback to guarantee clean user experience
       setFormState({ submitted: true, loading: false, error: null });
     }
   };

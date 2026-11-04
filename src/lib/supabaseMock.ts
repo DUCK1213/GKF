@@ -189,11 +189,42 @@ export class GKFDatabaseEngine {
     window.dispatchEvent(new Event('gkf-data-change'));
   }
 
-  // Reconcile and Sync Offline Queue
+  // Reconcile and Sync Offline Queue to Live PostgreSQL Database Pipeline
+  public async syncOfflineQueueAsync(): Promise<{ syncedCount: number }> {
+    if (typeof window === 'undefined') return { syncedCount: 0 };
+    const queue: SundaySessionLog[] = JSON.parse(localStorage.getItem(STORAGE_KEYS.OFFLINE_QUEUE) || '[]');
+    if (queue.length === 0) return { syncedCount: 0 };
+
+    try {
+      const response = await fetch('/api/pipeline/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ logs: queue }),
+      });
+      if (response.ok) {
+        return this.syncOfflineQueue();
+      }
+    } catch (e) {
+      console.warn('[Offline Sync Pipeline]: Server sync deferred, preserved in local queue.', e);
+    }
+
+    return this.syncOfflineQueue();
+  }
+
+  // Synchronous local resolution + trigger background sync
   public syncOfflineQueue(): { syncedCount: number } {
     if (typeof window === 'undefined') return { syncedCount: 0 };
     const queue: SundaySessionLog[] = JSON.parse(localStorage.getItem(STORAGE_KEYS.OFFLINE_QUEUE) || '[]');
     if (queue.length === 0) return { syncedCount: 0 };
+
+    // Fire background sync to live PostgreSQL pipeline
+    fetch('/api/pipeline/sync', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ logs: queue }),
+    }).catch((err) => {
+      console.warn('[Sync Pipeline Background Sync]:', err.message);
+    });
 
     const logs = this.getSundayLogs();
     const queueIds = new Set(queue.map((q) => q.id));
